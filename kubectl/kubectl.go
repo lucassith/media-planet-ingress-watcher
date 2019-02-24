@@ -10,7 +10,7 @@ import (
 // MakeIngressFile creates new ingress yaml template and writes it to the output.
 func MakeIngressFile(hostname string, output io.Writer) (int, error) {
 	template := GetTemplate()
-	template = strings.Replace(template, TemplateValue, hostname, 2)
+	template = strings.Replace(template, TemplateValue, hostname, 3)
 	return output.Write([]byte(template))
 }
 

@@ -6,7 +6,7 @@ func GetTemplate() string {
 	return `apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: mpmain-frontend
+  name: '` + TemplateValue + `'
   namespace: mpmain-frontend
   annotations:
     kubernetes.io/ingress.class: traefik

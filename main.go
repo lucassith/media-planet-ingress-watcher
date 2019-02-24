@@ -44,7 +44,7 @@ func main() {
 	var gracefulStop = make(chan os.Signal)
 	signal.Notify(gracefulStop, syscall.SIGTERM)
 	signal.Notify(gracefulStop, syscall.SIGINT)
-	log.Infof("Application ready.\n\nListening for changes in: %s\n", outputDirectory)
+	log.Infof("Application ready.\n\nListening for changes in: %s\n", watchDirectory)
 	for {
 		select {
 		case _ = <-gracefulStop:
@@ -61,13 +61,14 @@ func main() {
 					log.Errorf("Unable to read file, %v\n", err)
 					continue
 				}
-				match, err := regexp.Match("^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$", contents)
+				stringContents := strings.TrimSpace(string(contents[:]))
+				match, err := regexp.MatchString("^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$", stringContents)
 				if !match || err != nil {
-					log.Errorf("[] Hostname regexp did not match %s\nerror: %v\n", contents, err)
+					log.Errorf("[] Hostname regexp did not match %s\nerror: %v\n", stringContents, err)
 					continue
 				}
-				filepath, err := makeNewYaml(string(contents[:]))
-				log.Noticef("Created new ingress for %s in %s\n", contents, filepath)
+				filepath, err := makeNewYaml(stringContents)
+				log.Noticef("Created new ingress for %s in %s\n", stringContents, filepath)
 				if err != nil {
 					log.Errorf("Unable to create new yaml file, error: %v\n", err.Error())
 				}
