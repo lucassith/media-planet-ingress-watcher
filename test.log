@@ -1,0 +1,6 @@
+[32m#1 2019-02-24 11:39:04 main.go:70 ▶ NOT Created new ingress for asdf.poleca.to in /home/lucassith/temps/kube-watch/output/asdf-poleca-to-ingress.yaml
+[0m
+[37m#2 2019-02-24 11:39:04 main.go:75 ▶ INF Executed kubectl - output:
+
+ error: exec: "kc": executable file not found in $PATH
+[0m
