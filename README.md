@@ -5,7 +5,9 @@
 This application listens for files in a specific directory. If the file contains hostname then it 
 creates kubernetes ingress yaml and executes it.
 
-This application is being used to create new k8s ingress for MediaPlanet company.
+This application is being used to create new k8s ingresses for Media Planet Sp. z o.o. company.
+
+Please read LICENSE if you wish to use this application for youself.
 
 ## Usage
 
