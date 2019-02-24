@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"path"
 	"regexp"
@@ -22,16 +21,16 @@ var log *logger.Logger
 var watchDirectory string
 
 func init() {
+	log, _ = logger.New("main", 1, os.Stdout)
 	args := os.Args
 	if len(args) != 3 {
-		fmt.Println("You must specify arguments:\n\t1. Directory to listen for changes and new files.\n\t2. Output of yamls.")
+		log.Criticalf("You must specify arguments:\n\t1. Directory to listen for changes and new files.\n\t2. Output of yamls.")
 		os.Exit(1)
 	}
 	os.MkdirAll(args[1], os.ModePerm)
 	os.MkdirAll(args[2], os.ModePerm)
 	watchDirectory = args[1]
 	outputDirectory = args[2]
-	log, _ = logger.New("main", 1, os.Stdout)
 }
 
 func main() {
@@ -45,6 +44,7 @@ func main() {
 	var gracefulStop = make(chan os.Signal)
 	signal.Notify(gracefulStop, syscall.SIGTERM)
 	signal.Notify(gracefulStop, syscall.SIGINT)
+	log.Infof("Application ready.\n\nListening for changes in: %s\n", outputDirectory)
 	for {
 		select {
 		case _ = <-gracefulStop:
